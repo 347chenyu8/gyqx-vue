@@ -18,8 +18,7 @@
       return{
         id:this.$route.query.metting.id,
         title:this.$route.query.metting.title,
-        getQRCodeURL:this.$http.
-        // getQRCodeURL:axios.defaults.baseURL+'/metting/getQRCode',
+        getQRCodeURL:this.$http.defaults.baseURL+'/metting/getQRCode/'+this.$route.query.metting.id,
       }
     },
     created(){
