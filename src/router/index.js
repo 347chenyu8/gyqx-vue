@@ -32,6 +32,7 @@ import PublishStocks from '../components/product/PublishStocks.vue'
 import NotPermission from '../components/401.vue'
 import QQ from '../components/other/QQ.vue'
 import metting from '../components/metting/metting'
+import joinMetting from '../components/metting/joinMetting'
 
 Vue.use(VueRouter)
 
@@ -178,6 +179,10 @@ const routes = [
     {
       path: "/metting/metting",
       component: metting
+    },
+    {
+      path: "/metting/joinMetting",
+      component: joinMetting
     },
     ]
   },
