@@ -105,7 +105,7 @@ export default {
         const { data: res } = await this.$http.delete("loginLog/batchDelete/" + ids);
         if (res.code == 200) {
           this.$message.success("登入日志删除成功");
-          this.getLoginLogList();
+          this.getGroupList();
         } else {
           this.$message.error(res.msg);
         }
@@ -117,11 +117,11 @@ export default {
     //搜索
     search() {
       this.queryMap.pageNum = 1;
-      this.getLoginLogList();
+      this.getGroupList();
     },
 
     //加载登入日志列表
-    async getLoginLogList() {
+    async getGroupList() {
       const { data: res } = await this.$http.get("loginLog/findLoginLogList", {
         params: this.queryMap
       });
@@ -152,7 +152,7 @@ export default {
         const { data: res } = await this.$http.delete("loginLog/delete/" + id);
         if (res.code === 200) {
           this.$message.success("登入日志删除成功");
-          this.getLoginLogList();
+          this.getGroupList();
         } else {
           this.$message.error(res.msg);
         }
@@ -162,16 +162,16 @@ export default {
     //改变页码
     handleSizeChange(newSize) {
       this.queryMap.pageSize = newSize;
-      this.getLoginLogList();
+      this.getGroupList();
     },
     //翻页
     handleCurrentChange(current) {
       this.queryMap.pageNum = current;
-      this.getLoginLogList();
+      this.getGroupList();
     }
   },
   created() {
-    this.getLoginLogList();
+    this.getGroupList();
   }
 };
 </script>

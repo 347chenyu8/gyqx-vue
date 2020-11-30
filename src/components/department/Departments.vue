@@ -52,7 +52,6 @@
           height="460"
         >
           <el-table-column prop="id" type="index" label="ID" width="50"></el-table-column>
-          <el-table-column prop="phone" label="办公电话" width="180"></el-table-column>
           <el-table-column prop="name" label="部门名" width="120"></el-table-column>
           <el-table-column prop="total" label="人数" sortable width="100">
             <template slot-scope="scope">
@@ -60,6 +59,7 @@
               </el-tag>
             </template>
           </el-table-column>
+          <el-table-column prop="phone" label="办公电话" width="180"></el-table-column>
           <el-table-column prop="createTime" label="创建时间" sortable></el-table-column>
           <el-table-column prop="modifiedTime" label="修改时间" sortable></el-table-column>
           <el-table-column prop="address" label="地址"></el-table-column>

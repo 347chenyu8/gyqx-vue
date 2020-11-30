@@ -329,7 +329,7 @@ export default {
       department: this.userInfo.department,
       roles: roles
     });
-     this.loadMusicList();
+     // this.loadMusicList();
   },
   mounted: function() {
     this.loginReport(this.userInfo.username);

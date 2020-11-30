@@ -33,6 +33,8 @@ import NotPermission from '../components/401.vue'
 import QQ from '../components/other/QQ.vue'
 import metting from '../components/metting/metting'
 import joinMetting from '../components/metting/joinMetting'
+import checkMetting from '../components/metting/checkMetting'
+import mettingGroup from '../components/metting/group'
 
 Vue.use(VueRouter)
 
@@ -46,7 +48,11 @@ const routes = [
     name: 'Login',
     component: Login
   },
-
+  {
+    path: "/metting/check",
+    component: checkMetting,
+    meta:{title: '读书会签到'},
+  },
   {
     path: '/home',
     component: Home,
@@ -55,7 +61,8 @@ const routes = [
     children: [{
       path: '/welcome',
       component: Welcome
-    }, {
+    },
+      {
       path: '/users',
       component: Users,
       meta:{title: '用户管理'},
@@ -184,12 +191,16 @@ const routes = [
       path: "/metting/joinMetting",
       component: joinMetting
     },
+    {
+      path: "/mettingGroup",
+      component: mettingGroup
+    },
     ]
   },
 ]
 
 const router = new VueRouter({
-  mode: 'hash',
+  mode: 'history',
   base: process.env.BASE_URL,
   routes
 })
@@ -198,7 +209,6 @@ import store from '../store'//引入store
 
 //路由导航守卫
 router.beforeEach((to, from, next) => {
-
   const token = window.localStorage.getItem('JWT_TOKEN');
   if (to.path == '/login') {
     if(!token){
@@ -206,6 +216,13 @@ router.beforeEach((to, from, next) => {
     }else{
       return next({path: '/home'})
     }
+  }
+  if(to.path=='/401'){
+    return next();
+  }
+  //读书会签到
+  if(to.path=='/metting/check'){
+    return next();
   }
 
   if(to.path=='/401'){
