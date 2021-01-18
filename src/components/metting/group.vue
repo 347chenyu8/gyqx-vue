@@ -316,7 +316,6 @@
       async update(id){
         const { data: res } = await this.$http.get("mettingGroup/edit/" + id);
         if (res.code == 200) {
-          debugger
           this.editForm = res.data;
           this.editDialogVisible = true;
         } else {

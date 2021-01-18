@@ -10,7 +10,7 @@
     <div class="content">
       <el-card class="box-card">
         <div class="rollCall">
-          <div v-for="(item,i) in rollList" class="personItem" :class="itemStyle(i)">
+          <div v-for="(item,i) in rollList" class="personItem" :class="itemStyle(i+1)">
             <div>
               {{item.name}}
             </div>
@@ -127,7 +127,7 @@
         beginRamdonFlag:true,
         ramdonIndex:-1,
         chooseIndex:[-1],
-        cheatIndex:[-2]
+        cheatIndex:[57,1]
       }
     },
     methods:{
@@ -161,6 +161,7 @@
         do {
           flag = false;
           rom = parseInt(Math.random() * (max - min + 1) + min, 10);
+          rom = rom+1;
           for (let i = 0; i < this.chooseIndex.length; i++) {
             if (this.chooseIndex[i] == rom) {
               flag=true;
@@ -168,18 +169,18 @@
             }
           }
         }while(flag);
+        console.log(rom);
         return rom;
       },
       itemStyle(i){
-        for(let j = 0; j < this.chooseIndex.length; j++){
-          if(this.chooseIndex[j] == i){
-
-            return "choosedStyle"
-          }
-        }
         if(i == this.ramdonIndex){
           return "chooseStyle"
         }else{
+          for(let j = 0; j < this.chooseIndex.length; j++){
+            if(this.chooseIndex[j] == i){
+              return "choosedStyle"
+            }
+          }
           return "commonStyle"
         }
       },

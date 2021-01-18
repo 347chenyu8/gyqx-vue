@@ -26,11 +26,11 @@
         >
           <el-table-column type="selection" width="55" align="center"></el-table-column>
           <el-table-column prop="id" type="index" label="序号" width="50"></el-table-column>
-          <el-table-column prop="title" label="会议主题" width="150"></el-table-column>
-          <el-table-column prop="beginTime" label="会议开始时间" width="190"></el-table-column>
-          <el-table-column prop="endTime" label="会议结束时间" width="250"></el-table-column>
-          <el-table-column prop="create_time" label="创建时间" width="250"></el-table-column>
-          <el-table-column label="操作" width="300">
+          <el-table-column prop="title" label="会议主题" width="250"></el-table-column>
+          <el-table-column prop="beginTime" label="会议开始时间" width="150"></el-table-column>
+          <el-table-column prop="endTime" label="会议结束时间" width="150"></el-table-column>
+          <el-table-column prop="create_time" label="创建时间" width="150"></el-table-column>
+          <el-table-column label="操作" width="450">
             <template slot-scope="scope">
               <el-button
                       size="mini"
@@ -44,6 +44,12 @@
                       type="primary"
                       @click="update(scope.row.id)"
               >编辑</el-button>
+              <el-button
+                      size="mini"
+                      icon="el-icon-edit"
+                      type="primary"
+                      @click="showConstitutorUsers(scope.row.id)"
+              >设置组织者</el-button>
               <el-button
                       size="mini"
                       icon="el-icon-delete"
@@ -189,10 +195,35 @@
           <el-button @click="editDialogVisible = false">取 消</el-button>
           <el-button
                   type="primary"
-                  @click="addMetting"
+                  @click="editMetting"
                   :loading="btnLoading"
                   :disabled="btnDisabled"
           >确 定</el-button>
+        </span>
+    </el-dialog>
+    <!--设置组织者-->
+    <el-dialog center title="分配人员" :visible.sync="assignDialogVisible" width="49%">
+        <span>
+          <template>
+            <el-transfer
+                    filterable
+                    :titles="['未拥有','已拥有']"
+                    :button-texts="['到左边', '到右边']"
+                    v-model="constitutorvalue"
+                    :data="constitutorList"
+            ></el-transfer>
+          </template>
+        </span>
+      <span slot="footer" class="dialog-footer">
+          <el-button @click="assignDialogVisible = false" class="el-icon-close">取消分配</el-button>
+          <el-button
+                  v-hasPermission="'user:assign'"
+                  type="primary"
+                  @click="doConstitutorUsers"
+                  class="el-icon-check"
+                  :loading="btnLoading"
+                  :disabled="btnDisabled"
+          >确定分配</el-button>
         </span>
     </el-dialog>
   </div>
@@ -235,7 +266,11 @@
         addDialogVisible:false,
         editDialogVisible:false,
         btnLoading: false,
+        changeMettingID:"",
         btnDisabled: false,
+        assignDialogVisible:false,
+        constitutorList:[],
+        constitutorvalue:[],
         addForm: {
           title: "",
           beginTime: "",
@@ -258,6 +293,9 @@
         },
 
       };
+    },
+    created(){
+      this.getGroupList();
     },
     methods:{
       //列表选择
@@ -327,7 +365,7 @@
       /**
        * 修改会议
        */
-      addMetting(){
+      editMetting(){
         this.$refs.editFormRef.validate(async valid => {
           if (!valid) {
             return;
@@ -402,11 +440,49 @@
           query:{metting:id}
         })
       },
-    },
-    created() {
-      this.getGroupList();
-    }
+      async doConstitutorUsers(){
+        this.assignDialogVisible = true;
+        this.btnLoading = true;
+        this.btnDisabled = true;
+        const { data: res } = await this.$http.post(
+            "metting/" + this.changeMettingID + "/ConstitutorUsers",
+            this.constitutorvalue
+        );
+        if (res.code == 200) {
+          this.$notify.success({
+            title:'操作成功',
+            message:'分配成员成功',
+          });
+        } else {
+          this.$message.error("分配成员成功:" + res.msg);
+        }
+        this.assignDialogVisible = false;
+        this.btnLoading = false;
+        this.btnDisabled = false;
+      },
 
+      //弹出组织者编辑页面
+      async showConstitutorUsers(id){
+        this.changeMettingID = id;
+        const loading = this.$loading({
+          lock: true,
+          text: "Loading",
+          spinner: "el-icon-loading",
+          background: "rgba(0, 0, 0, 0.7)"
+        });
+        const { data: res } = await  this.$http.get("metting/" + id + "/constitutorUsers");
+        if (res.code == 200) {
+          this.constitutorList = res.data.users;
+          this.constitutorvalue = res.data.values;
+          this.uid = id;
+
+          setTimeout(() => {
+            loading.close();
+            this.assignDialogVisible = true;
+          }, 400);
+        }
+      },
+    },
   }
 </script>
 

@@ -1,40 +1,6 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import Login from '../components/Login.vue'
-import Home from '../components/Home.vue'
-import Welcome from '../components/Welcome.vue'
-import Users from '../components/user/Users.vue'
-import Roles from '../components/role/Roles.vue'
-import Menus from '../components/menu/Menus.vue'
-import Departments from '../components/department/Departments.vue'
-import ProductCategorys from '../components/product/ProductCategorys.vue'
-import Suppliers from '../components/product/Suppliers.vue'
-import Products from '../components/product/Products.vue'
-import InStocks from '../components/product/InStocks.vue'
-import OutStocks from '../components/product/OutStocks.vue'
-import AddStocks from '../components/product/AddStocks.vue'
-import GobalMap from '../components/other/map.vue'
-import Swagger from '../components/other/Swagger.vue'
-import Druid from '../components/other/Druid.vue'
-import Attachments from '../components/other/Attachments.vue'
-import LoginLog from '../components/log/LoginLog.vue'
-import Notices from '../components/notice/Notices.vue'
-import AddNotices from '../components/notice/AddNotices.vue'
-import Logs from '../components/log/Logs.vue'
-import Consumers from '../components/product/Consumers.vue'
-import Stocks from'../components/product/Stocks.vue'
-import Icons from '../components/other/Icons.vue'
-import Rumors from '../components/other/Rumors.vue'
-import RumorDetail from '../components/other/RumorDetail.vue'
-import Health from '../components/user/Health.vue'
-import Blog from '../components/other/Blog.vue'
-import PublishStocks from '../components/product/PublishStocks.vue'
-import NotPermission from '../components/401.vue'
-import QQ from '../components/other/QQ.vue'
-import metting from '../components/metting/metting'
-import joinMetting from '../components/metting/joinMetting'
-import checkMetting from '../components/metting/checkMetting'
-import mettingGroup from '../components/metting/group'
+
 
 Vue.use(VueRouter)
 
@@ -46,154 +12,166 @@ const routes = [
   {
     path: '/login',
     name: 'Login',
-    component: Login
+    component: () => import('../components/Login.vue'),
   },
   {
     path: "/metting/check",
-    component: checkMetting,
+    component: () => import('../components/metting/checkMetting'),
     meta:{title: '读书会签到'},
   },
   {
     path: '/home',
-    component: Home,
+    component: () => import( '../components/Home.vue'),
     meta:{title: '首页'},
     redirect: '/welcome',
     children: [{
       path: '/welcome',
-      component: Welcome
+      component: () => import( '../components/Welcome.vue')
     },
       {
       path: '/users',
-      component: Users,
+      component: () => import( '../components/user/Users.vue'),
       meta:{title: '用户管理'},
     }
     , {
       path: '/roles',
-      component: Roles,
+      component: () => import( '../components/role/Roles.vue'),
       meta:{title: '角色管理'},
     }
     , {
       path: '/menus',
-      component: Menus,
+      component: () => import( '../components/menu/Menus.vue'),
     }
     , {
       path: '/departments',
-      component: Departments,
+      component: () => import( '../components/department/Departments.vue'),
     }
 
     , {
       path: '/productCategorys',
-      component: ProductCategorys,
+      component: () => import( '../components/product/ProductCategorys.vue'),
     }
 
     , {
       path: '/suppliers',
-      component: Suppliers,
+      component: () => import( '../components/product/Suppliers.vue'),
     }
     , {
       path: '/products',
-      component: Products,
+      component: () => import( '../components/product/Products.vue'),
     }
     , {
       path: '/inStocks',
-      component: InStocks,
+      component: () => import( '../components/product/InStocks.vue'),
     }
     , {
       path: '/inStocks/addStocks',
-      component: AddStocks,
+      component: () => import( '../components/product/AddStocks.vue'),
     },
     {
       path: '/map',
-      component: GobalMap
+      component: () => import( '../components/other/map.vue')
     },
 
     {
       path: '/swagger',
-      component: Swagger
+      component: () => import( '../components/other/Swagger.vue')
     },
 
     {
       path: '/druid',
-      component: Druid
+      component: () => import( '../components/other/Druid.vue')
     },
     {
       path: '/loginLog',
-      component: LoginLog
+      component: () => import( '../components/log/LoginLog.vue')
     },
 
     {
       path: '/notices',
-      component: Notices
+      component: () => import( '../components/notice/Notices.vue')
     },
     {
       path: '/notices/add',
-      component: AddNotices
+      component: () => import( '../components/notice/AddNotices.vue')
     },
     {
       path: '/logs',
-      component: Logs
+      component: () => import( '../components/log/Logs.vue')
     },
 
     {
       path: '/consumers',
-      component: Consumers
+      component: () => import( '../components/product/Consumers.vue')
     },
 
     {
       path: '/stocks',
-      component: Stocks
+      component: () => import('../components/product/Stocks.vue')
     },
     {
       path: '/icons',
-      component: Icons
+      component: () => import( '../components/other/Icons.vue')
     },
     {
       path: '/attachments',
-      component: Attachments
+      component: () => import( '../components/other/Attachments.vue')
     },
     {
       path: '/rumors',
-      component: Rumors
+      component: () => import( '../components/other/Rumors.vue')
     },
     {
       path: '/rumors/detail',
-      component: RumorDetail
+      component: () => import( '../components/other/RumorDetail.vue')
     },
     {
       path: '/health',
-      component: Health
+      component: () => import( '../components/user/Health.vue')
     },
     {
       path: '/blog',
-      component: Blog
+      component: () => import( '../components/other/Blog.vue')
     },
     {
       path: '/qq',
-      component: QQ
+      component: () => import( '../components/other/QQ.vue')
     },
     {
       path: '/outStocks',
-      component: OutStocks
+      component: () => import( '../components/product/OutStocks.vue')
     },
     {
       path: '/OutStocks/publishStocks',
-      component: PublishStocks
+      component: () => import( '../components/product/PublishStocks.vue')
     },
     {
       path: "/401",
-      component: NotPermission
+      component: () => import( '../components/401.vue')
     },
     {
       path: "/metting/metting",
-      component: metting
+      component: () => import( '../components/metting/metting.vue')
     },
     {
       path: "/metting/joinMetting",
-      component: joinMetting
+      component: () => import( '../components/metting/joinMetting.vue')
     },
     {
       path: "/mettingGroup",
-      component: mettingGroup
+      component: () => import( '../components/metting/group.vue')
+    },
+    {
+      path: "/metting/ramdon",
+      component: () => import( '../components/metting/ramdon.vue')
+    },
+      {
+        path: "/metting/report",
+        component: () => import( '../components/metting/report.vue')
+      },
+    {
+      path: "/report/input",
+      component: () => import( '../components/report/dataInput.vue')
     },
     ]
   },
