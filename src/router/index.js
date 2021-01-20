@@ -165,10 +165,15 @@ const routes = [
       path: "/metting/ramdon",
       component: () => import( '../components/metting/ramdon.vue')
     },
-      {
-        path: "/metting/report",
-        component: () => import( '../components/metting/report.vue')
-      },
+    {
+      path: "/metting/zjbramdon",
+      component: () => import( '../components/metting/zjbramdon.vue')
+    },
+
+    {
+      path: "/metting/report",
+      component: () => import( '../components/metting/report.vue')
+    },
     {
       path: "/report/input",
       component: () => import( '../components/report/dataInput.vue')

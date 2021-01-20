@@ -4,7 +4,7 @@
       <el-breadcrumb separator="/" style="padding-left:10px;padding-bottom:10px;font-size:12px;">
         <el-breadcrumb-item :to="{ path: '/home' }">首页</el-breadcrumb-item>
         <el-breadcrumb-item>读书会管理</el-breadcrumb-item>
-        <el-breadcrumb-item>抽签小程序</el-breadcrumb-item>
+        <el-breadcrumb-item>总经办抽签小程序</el-breadcrumb-item>
       </el-breadcrumb>
     </div>
     <div class="content">
@@ -16,22 +16,34 @@
             </div>
           </div>
         </div>
-        <div class="clickButton3">
-          <div class="clickButton2">
-            <div class="clickButton4" @click="beginRamdon(false)">
-              {{this.beginRamdonFlag==true?"谁是幸":"停"}}
-            </div>
-            <div class="clickButton5" @click="beginRamdon(true)">
-              {{this.beginRamdonFlag==true?"运儿？":"止"}}
+        <div class="opertionClass">
+          <div class="setButton">
+            <el-select v-model="choseCount" placeholder="请选择">
+              <el-option key="20" label="每次20人" :value="20"></el-option>
+              <el-option key="10" label="每次10人" :value="10"></el-option>
+              <el-option key="5" label="每次5人" :value="5"></el-option>
+              <el-option key="2" label="每次2人" :value="2"></el-option>
+              <el-option key="1" label="每次1人" :value="1"></el-option>
+            </el-select>
+          </div>
+          <div class="clickButton">
+            <el-button type="success" @click="beginRamdon"  style="width: 10rem;">
+              <span> {{this.beginRamdonFlag==true?"分组抽签":"停止"}}</span>
+            </el-button>
+          </div>
+        </div>
+        <el-divider></el-divider>
+        <div class="romdomResulttitle">
+          <el-link type="primary">抽签结果</el-link>
+        </div>
+        <div class="romdomResult">
+          <div v-for="(item,i) in romdomlist" :class="ResultStyle(i)">
+            <div class="resultgroup">第{{i+1}}组</div>
+            <div v-for="(item2,i) in item" class="ResultItem2">
+              {{rollList[item2-1].name}}
             </div>
           </div>
         </div>
-
-        <!--<div class="clickButton">-->
-          <!--<el-button type="success" @click="beginRamdon"  style="width: 10rem;">-->
-            <!--<span> {{this.beginRamdonFlag==true?"谁是幸运儿":"停止"}}</span>-->
-          <!--</el-button>-->
-        <!--</div>-->
       </el-card>
     </div>
 
@@ -126,32 +138,41 @@
         ],
         beginRamdonFlag:true,
         ramdonIndex:-1,
-        chooseIndex:[-1],
-        cheatIndex:[]
+        chooseIndex:[],
+        cheatIndex:[],
+        choseCount:20,
+        group:[],
+        romdomcount:0,
+        romdomlist:[],
       }
     },
     methods:{
-      beginRamdon(cheat){
+      beginRamdon(){
         let Data = this.rollList;
         if(this.beginRamdonFlag == true){
           this.beginIntervalId = setInterval(() => {
-            this.ramdonIndex = this.getRandomInt(0,Data.length-1);
-          }, 50);
+            this.group=[];
+            let count = this.choseCount;
+            let remain = Data.length-this.chooseIndex.length;
+            if(remain >= this.choseCount){
+               count = this.choseCount;
+            }else{
+              count = remain;
+            }
+            for(;count>0;){
+              this.ramdonIndex = this.getRandomInt(0,Data.length-1);
+              if(!this.choosedTest2(this.ramdonIndex)){
+                count--;
+                this.group.push(this.ramdonIndex)
+              }
+            }
+          }, 150);
           this.beginRamdonFlag = false;
         }else{
           clearInterval(this.beginIntervalId);
-          let t=0;
-          if(cheat){
-            if(!this.cheatTest()){
-              for(;t<this.cheatIndex.length;t++){
-                if(!this.choosedTest(this.cheatIndex[t])){
-                  break;
-                }
-              }
-              this.ramdonIndex = this.cheatIndex[t];
-            }
-          }
-          this.chooseIndex.push(this.ramdonIndex);
+          // this.chooseIndex.push(this.ramdonIndex);
+          this.chooseIndex = this.chooseIndex.concat(this.group);
+          this.romdomlist.push(this.group);
           this.beginRamdonFlag = true;
         }
       },
@@ -173,15 +194,29 @@
         return rom;
       },
       itemStyle(i){
-        if(i == this.ramdonIndex){
-          return "chooseStyle"
-        }else{
-          for(let j = 0; j < this.chooseIndex.length; j++){
-            if(this.chooseIndex[j] == i){
-              return "choosedStyle"
-            }
+        for(let x = 0; x < this.group.length; x++){
+          if (this.group[x] == i) {
+            return "chooseStyle"
           }
-          return "commonStyle"
+        }
+        for(let j = 0; j < this.chooseIndex.length; j++){
+          if(this.chooseIndex[j] == i){
+            return "choosedStyle"
+          }
+        }
+        return "commonStyle"
+
+      },
+      //结果样式
+      ResultStyle(i){
+        if(i%4 == 0){
+          return "resultStyle1"
+        }else if(i%4==1){
+          return "resultStyle2"
+        }else if(i%4==2){
+          return "resultStyle3"
+        }else if(i%4==3){
+          return "resultStyle4"
         }
       },
       //判断是否已经选择
@@ -191,6 +226,22 @@
           if (this.chooseIndex[s] == test) {
             flag= true;
           }
+        return flag;
+      },
+      //判断是否已经选择
+      choosedTest2(test){
+        let flag = false;
+        for(let s = 0; s < this.chooseIndex.length; s++){
+          if (this.chooseIndex[s] == test) {
+            flag= true;
+          }
+        }
+        for(let x = 0; x < this.group.length; x++){
+          if (this.group[x] == test) {
+            flag= true;
+          }
+        }
+
         return flag;
       },
       //判断作弊人数是否已经全部选择
@@ -206,7 +257,11 @@
           return true
         }
         return false;
+      },
+      setCount(i){
+        this.choseCount=i;
       }
+
     }
 
   }
@@ -243,10 +298,16 @@
     margin: 1px;
     border-color:#F0F0F0;
   }
-
-  .clickButton{
-    text-align: center;
+  .opertionClass{
+    display: flex;
+    width: 100%;
     margin-top: 1rem ;
+  }
+  .setButton{
+    width: calc(50% - 5rem);
+  }
+  .clickButton{
+    width: calc(50% + 5rem);
   }
   .clickButton3{
     display: flex;
@@ -293,4 +354,55 @@
     background-color: #F0F0F0;
     color:black;
   }
+  .romdomResult{
+    display: flex;
+    flex-wrap:wrap;
+  }
+  .romdomResulttitle{
+    text-align: center;
+    margin-top: 1rem ;
+  }
+  .resultStyle1{
+    margin-top: 1rem;
+    margin-right: 1rem;
+    background-color: #67c23a;
+    color:white;
+    text-align: center;
+    width: 23%;
+  }
+  .resultStyle2{
+    margin-top: 1rem;
+    margin-right: 1rem;
+    background-color: #E6A23C;
+    color:white;
+    text-align: center;
+    width: 23%;
+  }
+  .resultStyle3{
+    margin-top: 1rem;
+    margin-right: 1rem;
+    background-color: #F56C6C;
+    color:white;
+    text-align: center;
+    width: 23%;
+  }
+  .resultStyle4{
+    margin-top: 1rem;
+    background-color: #409EFF;
+    color:white;
+    text-align: center;
+    width: 23%;
+  }
+  .ResultItem2{
+    width: 100%;
+    border-style: solid;
+    border-width: 1px;
+    margin: 1px;
+    border-color:#F0F0F0;
+  }
+  .resultgroup{
+    background: darkgray;
+    font-weight: bold;
+  }
+
 </style>
