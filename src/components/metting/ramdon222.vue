@@ -28,9 +28,9 @@
         </div>
 
         <!--<div class="clickButton">-->
-          <!--<el-button type="success" @click="beginRamdon"  style="width: 10rem;">-->
-            <!--<span> {{this.beginRamdonFlag==true?"谁是幸运儿":"停止"}}</span>-->
-          <!--</el-button>-->
+        <!--<el-button type="success" @click="beginRamdon"  style="width: 10rem;">-->
+        <!--<span> {{this.beginRamdonFlag==true?"谁是幸运儿":"停止"}}</span>-->
+        <!--</el-button>-->
         <!--</div>-->
       </el-card>
     </div>
@@ -158,24 +158,7 @@
               this.ramdonIndex = this.cheatIndex[t];
             }
           }else{
-            if(this.rollList.length - this.chooseIndex.length >= this.notchose.length){
-              let dfsd = false;
-              while(true){
-                wai:
-                    dfsd = false
-                for(let u=0;u<this.notchose.length;u++){
-                  nei:
-                      if(this.notchose[u] == this.ramdonIndex){
-                        this.ramdonIndex = this.getRandomInt(0,Data.length-1);
-                        dfsd = true;
-                        break nei;
-                      }
-                }
-                if(dfsd == false){
-                  break ;
-                }
-              }
-            }
+
           }
           this.chooseIndex.push(this.ramdonIndex);
           this.beginRamdonFlag = true;
@@ -245,10 +228,10 @@
 
 <style scoped>
   /*.content{*/
-    /*display: flex;*/
-    /*justify-content:center;*/
-    /*align-items:center;*/
-    /*width: 100%;*/
+  /*display: flex;*/
+  /*justify-content:center;*/
+  /*align-items:center;*/
+  /*width: 100%;*/
   /*}*/
   .rollCall{
     display: flex;
