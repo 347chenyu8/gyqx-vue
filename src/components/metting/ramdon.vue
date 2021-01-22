@@ -162,12 +162,18 @@
           flag = false;
           rom = parseInt(Math.random() * (max - min + 1) + min, 10);
           rom = rom+1;
+          if(this.chooseIndex.length > this.rollList.length){
+            flag == false;
+            rom=-1;
+            break
+          }
           for (let i = 0; i < this.chooseIndex.length; i++) {
             if (this.chooseIndex[i] == rom) {
               flag=true;
               break;
             }
           }
+
         }while(flag);
         console.log(rom);
         return rom;

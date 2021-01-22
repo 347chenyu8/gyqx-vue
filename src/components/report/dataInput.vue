@@ -132,7 +132,26 @@
               </el-form-item>
               <el-form-item>
                 <el-button type="primary" @click="uploadClick(11)">
-                  智合健关联采销数据
+                  智合健数据溯源
+                  <i class="el-icon-upload el-icon--right"></i>
+                </el-button>
+              </el-form-item>
+            </div>
+          </el-card>
+        </el-col>
+      </el-row>
+
+
+      <el-row :gutter="20" class="cardRow">
+        <el-col :span="12">
+          <el-card>
+            <div slot="header" class="clearfix">
+              <span>JDE入库记录</span>
+            </div>
+            <div class="card-centent-div">
+              <el-form-item>
+                <el-button type="primary" @click="uploadClick(12)">
+                  上传JDE入库记录
                   <i class="el-icon-upload el-icon--right"></i>
                 </el-button>
               </el-form-item>
@@ -254,6 +273,11 @@
         else if (type === 10) {
           //智合健 销售数据导入
           this.uploadUrl = this.$http.defaults.baseURL + 'report/reportGl/';
+
+        }
+        else if (type === 12) {
+          //JDE入库记录导入
+          this.uploadUrl = this.$http.defaults.baseURL + 'report/jdeStorage/';
 
         }
         else if (type === 11) {
