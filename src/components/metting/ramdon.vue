@@ -200,7 +200,6 @@
             }
           }
         }while(flag);
-        console.log(rom);
         return rom;
       },
       itemStyle(i){

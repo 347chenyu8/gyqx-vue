@@ -178,6 +178,10 @@ const routes = [
       path: "/report/input",
       component: () => import( '../components/report/dataInput.vue')
     },
+    {
+      path: "/report/analyseData",
+      component: () => import( '../components/report/analyseData.vue')
+    },
     ]
   },
 ]

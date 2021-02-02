@@ -121,7 +121,7 @@
         <el-col :span="12">
           <el-card>
             <div slot="header" class="clearfix">
-              <span>千方百剂--关联表</span>
+              <span>关联表</span>
             </div>
             <div class="card-centent-div">
               <el-form-item>
@@ -131,11 +131,12 @@
                 </el-button>
               </el-form-item>
               <el-form-item>
-                <el-button type="primary" @click="uploadClick(11)">
-                  智合健数据溯源
+                <el-button type="primary" @click="uploadClick(12)">
+                  上传JDE入库记录
                   <i class="el-icon-upload el-icon--right"></i>
                 </el-button>
               </el-form-item>
+
             </div>
           </el-card>
         </el-col>
@@ -146,12 +147,12 @@
         <el-col :span="12">
           <el-card>
             <div slot="header" class="clearfix">
-              <span>JDE入库记录</span>
+              <span>数据溯源</span>
             </div>
             <div class="card-centent-div">
               <el-form-item>
-                <el-button type="primary" @click="uploadClick(12)">
-                  上传JDE入库记录
+                <el-button type="primary" @click="uploadClick(11)">
+                  智合健数据溯源
                   <i class="el-icon-upload el-icon--right"></i>
                 </el-button>
               </el-form-item>
@@ -297,6 +298,7 @@
           return this.$message.success("数据处理成功");
         }
       },
+
     }
   }
 </script>
